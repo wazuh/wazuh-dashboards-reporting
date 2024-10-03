@@ -278,7 +278,6 @@ export const sendTestNotificationsMessage = async (
   item: any
 ) => {
   try {
-    console.log({ id, httpClientProps, item });
     const eventId = await httpClientProps
       .get(
         `${REPORTING_NOTIFICATIONS_DASHBOARDS_API.SEND_TEST_MESSAGE}/${item.channel[0]}`,
