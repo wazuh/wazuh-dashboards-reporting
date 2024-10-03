@@ -1,22 +1,6 @@
 name: Test and Build OpenSearch Dashboards Reports
 
-on: 
-  workflow_call:
-    inputs:
-      reference:
-        required: true
-        type: string
-        description: Source code reference (branch, tag or commit SHA)
-        default: master
-  workflow_dispatch:
-    inputs:
-      reference:
-        required: true
-        type: string
-        default: master
-        description: Source code reference (branch, tag or commit SHA)
-  pull_request:
-  push:
+on: [pull_request, push]
 
 env:
   PLUGIN_NAME: reportsDashboards
@@ -54,11 +38,6 @@ jobs:
         with:	
           path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
-      - name: Get the plugin version
-        run: |
-          echo "VERSION=$(jq -r '.wazuh.version' $(pwd)/OpenSearch-Dashboards/plugins/reportsDashboards/package.json)" >> $GITHUB_ENV
-          echo "REVISION=$(jq -r '.wazuh.revision' $(pwd)/OpenSearch-Dashboards/plugins/reportsDashboards/package.json)" >> $GITHUB_ENV
-
       - name: OpenSearch Dashboards Plugin Bootstrap and test
         uses: nick-fields/retry@v1
         with:
@@ -84,14 +63,14 @@ jobs:
           cd ./OpenSearch-Dashboards/
           su `id -un 1000` -c "source $NVM_DIR/nvm.sh && nvm use && node -v && yarn -v &&
                                cd ./plugins/${{ env.PLUGIN_NAME }} &&
-                               whoami && yarn build && mv -v ./build/*.zip ./build/reports-dashboards_${{ env.VERSION }}-${{ env.REVISION }}_${{ inputs.reference }}.zip"
+                               whoami && yarn build && mv -v ./build/*.zip ./build/${{ env.ARTIFACT_NAME }}-${{ env.OPENSEARCH_PLUGIN_VERSION }}.zip"
 
       - name: Upload Artifact For Linux
         uses: actions/upload-artifact@v4
         with:
-          name: reports-dashboards_${{ env.VERSION }}-${{ env.REVISION }}_${{ inputs.reference }}
-          path: ./OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}/build/reports-dashboards_${{ env.VERSION }}-${{ env.REVISION }}_${{ inputs.reference }}.zip
-  
+          name: dashboards-reports-linux
+          path: ./OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}/build/${{ env.ARTIFACT_NAME }}-${{ env.OPENSEARCH_PLUGIN_VERSION }}.zip  
+
   # Commenting out windows and macos build jobs as they are not required for now.
   # windows-build:
   #   runs-on: windows-latest
