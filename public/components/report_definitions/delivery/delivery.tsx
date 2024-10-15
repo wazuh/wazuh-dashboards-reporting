@@ -81,16 +81,13 @@ export function ReportDelivery(props: ReportDeliveryProps) {
   const handleSendNotification = (e: { target: { checked: boolean } }) => {
     setSendNotification(e.target.checked);
     includeDelivery = e.target.checked;
-    if (includeDelivery) {
+    if (!edit) {
       reportDefinitionRequest.delivery.title = 'New report';
       reportDefinitionRequest.delivery.textDescription =
         'New report available to view';
       reportDefinitionRequest.delivery.htmlDescription = converter.makeHtml(
         'New report available to view'
       );
-    } else {
-      reportDefinitionRequest.delivery.title = `\u2014`;
-      reportDefinitionRequest.delivery.textDescription = `\u2014`;
     }
   };
 
@@ -231,10 +228,10 @@ export function ReportDelivery(props: ReportDeliveryProps) {
           httpClientProps
             .get(`../api/reporting/reportDefinitions/${editDefinitionId}`)
             .then(async (response: any) => {
-              if (response.report_definition.delivery.configIds.length > 0) {
+              let delivery = response.report_definition.delivery;
+              if (delivery.configIds.length > 0) {
                 // add config IDs
                 handleSendNotification({ target: { checked: true } });
-                let delivery = response.report_definition.delivery;
                 let editChannelOptions = [];
                 for (let i = 0; i < delivery.configIds.length; ++i) {
                   for (let j = 0; j < availableChannels.length; ++j) {
@@ -249,10 +246,10 @@ export function ReportDelivery(props: ReportDeliveryProps) {
                   }
                 }
                 setSelectedChannels(editChannelOptions);
-                setNotificationSubject(delivery.title);
-                setNotificationMessage(delivery.textDescription);
-                reportDefinitionRequest.delivery = delivery;
               }
+              setNotificationSubject(delivery.title);
+              setNotificationMessage(delivery.textDescription);
+              reportDefinitionRequest.delivery = delivery;
             });
         } else {
           defaultCreateDeliveryParams();
