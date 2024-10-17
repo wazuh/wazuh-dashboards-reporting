@@ -808,7 +808,32 @@ exports[`<Main /> panel render component 1`] = `
                     aria-live="polite"
                     aria-sort="none"
                     class="euiTableHeaderCell"
-                    data-test-subj="tableHeaderCell_status_5"
+                    data-test-subj="tableHeaderCell_notificationsEnabled_5"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Notifications"
+                        >
+                          Notifications
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_status_6"
                     role="columnheader"
                     scope="col"
                   >
@@ -837,7 +862,7 @@ exports[`<Main /> panel render component 1`] = `
                 >
                   <td
                     class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
-                    colspan="6"
+                    colspan="7"
                   >
                     <div
                       class="euiTableCellContent euiTableCellContent--alignCenter"
@@ -1755,7 +1780,32 @@ exports[`<Main /> panel render component after create success 1`] = `
                     aria-live="polite"
                     aria-sort="none"
                     class="euiTableHeaderCell"
-                    data-test-subj="tableHeaderCell_status_5"
+                    data-test-subj="tableHeaderCell_notificationsEnabled_5"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Notifications"
+                        >
+                          Notifications
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_status_6"
                     role="columnheader"
                     scope="col"
                   >
@@ -1784,7 +1834,7 @@ exports[`<Main /> panel render component after create success 1`] = `
                 >
                   <td
                     class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
-                    colspan="6"
+                    colspan="7"
                   >
                     <div
                       class="euiTableCellContent euiTableCellContent--alignCenter"
@@ -2758,7 +2808,32 @@ exports[`<Main /> panel render component after delete success 1`] = `
                     aria-live="polite"
                     aria-sort="none"
                     class="euiTableHeaderCell"
-                    data-test-subj="tableHeaderCell_status_5"
+                    data-test-subj="tableHeaderCell_notificationsEnabled_5"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Notifications"
+                        >
+                          Notifications
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_status_6"
                     role="columnheader"
                     scope="col"
                   >
@@ -2787,7 +2862,7 @@ exports[`<Main /> panel render component after delete success 1`] = `
                 >
                   <td
                     class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
-                    colspan="6"
+                    colspan="7"
                   >
                     <div
                       class="euiTableCellContent euiTableCellContent--alignCenter"
@@ -3762,7 +3837,32 @@ exports[`<Main /> panel render component after edit success 1`] = `
                     aria-live="polite"
                     aria-sort="none"
                     class="euiTableHeaderCell"
-                    data-test-subj="tableHeaderCell_status_5"
+                    data-test-subj="tableHeaderCell_notificationsEnabled_5"
+                    role="columnheader"
+                    scope="col"
+                  >
+                    <button
+                      class="euiTableHeaderButton"
+                      data-test-subj="tableHeaderSortButton"
+                      type="button"
+                    >
+                      <span
+                        class="euiTableCellContent"
+                      >
+                        <span
+                          class="euiTableCellContent__text"
+                          title="Notifications"
+                        >
+                          Notifications
+                        </span>
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-live="polite"
+                    aria-sort="none"
+                    class="euiTableHeaderCell"
+                    data-test-subj="tableHeaderCell_status_6"
                     role="columnheader"
                     scope="col"
                   >
@@ -3791,7 +3891,7 @@ exports[`<Main /> panel render component after edit success 1`] = `
                 >
                   <td
                     class="euiTableRowCell euiTableRowCell--isMobileFullWidth"
-                    colspan="6"
+                    colspan="7"
                   >
                     <div
                       class="euiTableCellContent euiTableCellContent--alignCenter"
