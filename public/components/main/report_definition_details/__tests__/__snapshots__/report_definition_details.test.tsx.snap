@@ -403,6 +403,61 @@ exports[`<ReportDefinitionDetails /> panel render 5 hours recurring definition d
           </dl>
         </div>
       </div>
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Channel name
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email subject
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email body
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        />
+      </div>
     </div>
     <div
       aria-live="polite"
@@ -815,6 +870,61 @@ exports[`<ReportDefinitionDetails /> panel render disabled daily definition, cli
             />
           </dl>
         </div>
+      </div>
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Channel name
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email subject
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email body
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        />
       </div>
     </div>
     <div
@@ -1229,6 +1339,61 @@ exports[`<ReportDefinitionDetails /> panel render on demand definition details 1
             />
           </dl>
         </div>
+      </div>
+      <div
+        class="euiFlexGroup euiFlexGroup--gutterLarge euiFlexGroup--directionRow euiFlexGroup--responsive"
+      >
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Channel name
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email subject
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        >
+          <dl
+            class="euiDescriptionList euiDescriptionList--row"
+          >
+            <dt
+              class="euiDescriptionList__title"
+            >
+              Email body
+            </dt>
+            <dd
+              class="euiDescriptionList__description"
+            />
+          </dl>
+        </div>
+        <div
+          class="euiFlexItem"
+        />
       </div>
     </div>
     <div

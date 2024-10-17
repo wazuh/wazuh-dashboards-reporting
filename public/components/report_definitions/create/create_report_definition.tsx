@@ -13,16 +13,17 @@ import {
   EuiButton,
   EuiTitle,
   EuiPageBody,
-  EuiSpacer,
+  EuiSpacer
 } from '@elastic/eui';
 import { ReportSettings } from '../report_settings';
 import { generateReportFromDefinitionId } from '../../main/main_utils';
 import { converter } from '../utils';
 import {
   permissionsMissingToast,
-  permissionsMissingActions,
+  permissionsMissingActions
 } from '../../utils/utils';
 import { definitionInputValidation } from '../utils/utils';
+import { ReportDelivery } from '../delivery';
 
 interface reportParamsType {
   report_name: string;
@@ -89,7 +90,11 @@ export interface timeRangeParams {
   timeTo: Date;
 }
 
-export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; httpClient?: any; }) {
+export function CreateReport(props: {
+  [x: string]: any;
+  setBreadcrumbs?: any;
+  httpClient?: any;
+}) {
   let createReportDefinitionRequest: reportDefinitionParams = {
     report_params: {
       report_name: '',
@@ -98,8 +103,8 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
       core_params: {
         base_url: '',
         report_format: '',
-        time_duration: '',
-      },
+        time_duration: ''
+      }
     },
     delivery: {
       configIds: [],
@@ -108,8 +113,8 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
       htmlDescription: ''
     },
     trigger: {
-      trigger_type: '',
-    },
+      trigger_type: ''
+    }
   };
 
   const [toasts, setToasts] = useState([]);
@@ -118,23 +123,23 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
 
   const [
     showSettingsReportNameError,
-    setShowSettingsReportNameError,
+    setShowSettingsReportNameError
   ] = useState(false);
   const [
     settingsReportNameErrorMessage,
-    setSettingsReportNameErrorMessage,
+    setSettingsReportNameErrorMessage
   ] = useState('');
   const [
     showSettingsReportSourceError,
-    setShowSettingsReportSourceError,
+    setShowSettingsReportSourceError
   ] = useState(false);
   const [
     settingsReportSourceErrorMessage,
-    setSettingsReportSourceErrorMessage,
+    setSettingsReportSourceErrorMessage
   ] = useState('');
   const [
     showTriggerIntervalNaNError,
-    setShowTriggerIntervalNaNError,
+    setShowTriggerIntervalNaNError
   ] = useState(false);
   const [showCronError, setShowCronError] = useState(false);
   const [showTimeRangeError, setShowTimeRangeError] = useState(false);
@@ -150,12 +155,12 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
         'opensearch.reports.createReportDefinition.error.fieldsHaveAnError',
         {
           defaultMessage:
-            'One or more fields have an error. Please check and try again.',
+            'One or more fields have an error. Please check and try again.'
         }
       ),
       color: 'danger',
       iconType: 'alert',
-      id: 'errorToast',
+      id: 'errorToast'
     };
     // @ts-ignore
     setToasts(toasts.concat(errorToast));
@@ -179,7 +184,7 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
         ),
         color: 'danger',
         iconType: 'alert',
-        id: 'errorToast',
+        id: 'errorToast'
       };
     }
     // @ts-ignore
@@ -198,7 +203,7 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
       ),
       color: 'danger',
       iconType: 'alert',
-      id: 'timeRangeErrorToast',
+      id: 'timeRangeErrorToast'
     };
     // @ts-ignore
     setToasts(toasts.concat(errorToast));
@@ -208,13 +213,13 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
     addInvalidTimeRangeToastHandler();
   };
 
-  const removeToast = (removedToast: { id: string; }) => {
+  const removeToast = (removedToast: { id: string }) => {
     setToasts(toasts.filter((toast: any) => toast.id !== removedToast.id));
   };
 
   let timeRange = {
     timeFrom: new Date(),
-    timeTo: new Date(),
+    timeTo: new Date()
   };
 
   const createNewReportDefinition = async (
@@ -241,8 +246,8 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
       setShowTriggerIntervalNaNError,
       timeRange,
       setShowTimeRangeError,
-      setShowCronError,
-    ).then((response) => {
+      setShowCronError
+    ).then(response => {
       error = response;
     });
     if (error) {
@@ -254,19 +259,23 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
         .post('../api/reporting/reportDefinition', {
           body: JSON.stringify(metadata),
           headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(async (resp: { scheduler_response: { reportDefinitionId: string; }; }) => {
-          //TODO: consider handle the on demand report generation from server side instead
-          if (metadata.trigger.trigger_type === 'On demand') {
-            const reportDefinitionId =
-              resp.scheduler_response.reportDefinitionId;
-            generateReportFromDefinitionId(reportDefinitionId, httpClient);
+            'Content-Type': 'application/json'
           }
-          window.location.assign(`reports-dashboards#/create=success`);
         })
-        .catch((error: {body: { statusCode: number; }; }) => {
+        .then(
+          async (resp: {
+            scheduler_response: { reportDefinitionId: string };
+          }) => {
+            //TODO: consider handle the on demand report generation from server side instead
+            if (metadata.trigger.trigger_type === 'On demand') {
+              const reportDefinitionId =
+                resp.scheduler_response.reportDefinitionId;
+              generateReportFromDefinitionId(reportDefinitionId, httpClient);
+            }
+            window.location.assign(`reports-dashboards#/create=success`);
+          }
+        )
+        .catch((error: { body: { statusCode: number } }) => {
           console.log('error in creating report definition: ' + error);
           if (error.body.statusCode === 403) {
             handleErrorOnCreateToast('permissions');
@@ -285,15 +294,15 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
           'opensearch.reports.createReportDefinition.breadcrumb.reporting',
           { defaultMessage: 'Reporting' }
         ),
-        href: '#',
+        href: '#'
       },
       {
         text: i18n.translate(
           'opensearch.reports.createReportDefinition.breadcrumb.createReportDefinition',
           { defaultMessage: 'Create report definition' }
         ),
-        href: '#/create',
-      },
+        href: '#/create'
+      }
     ]);
   }, []);
 
@@ -303,15 +312,17 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
         <EuiTitle>
           <h1>
             {i18n.translate('opensearch.reports.createReportDefinition.title', {
-              defaultMessage: 'Create report definition',
+              defaultMessage: 'Create report definition'
             })}
           </h1>
         </EuiTitle>
         <EuiSpacer />
         <ReportSettings
           edit={false}
-          editDefinitionId={''} // empty string since we are coming from create
-          reportDefinitionRequest={createReportDefinitionRequest}
+          editDefinitionId={''}
+          reportDefinitionRequest={
+            createReportDefinitionRequest // empty string since we are coming from create
+          }
           httpClientProps={props['httpClient']}
           timeRange={timeRange}
           showSettingsReportNameError={showSettingsReportNameError}
@@ -321,6 +332,12 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
           showTimeRangeError={showTimeRangeError}
           showTriggerIntervalNaNError={showTriggerIntervalNaNError}
           showCronError={showCronError}
+        />
+        <EuiSpacer />
+        <ReportDelivery
+          edit={false}
+          reportDefinitionRequest={createReportDefinitionRequest}
+          httpClientProps={props['httpClient']}
         />
         <EuiSpacer />
         <EuiFlexGroup justifyContent="flexEnd">
@@ -343,8 +360,7 @@ export function CreateReport(props: { [x: string]: any; setBreadcrumbs?: any; ht
                 createNewReportDefinition(
                   createReportDefinitionRequest,
                   timeRange
-                )
-              }
+                )}
               id={'createNewReportDefinition'}
             >
               {i18n.translate(

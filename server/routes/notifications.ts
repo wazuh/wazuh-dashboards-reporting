@@ -10,7 +10,7 @@ import {
   IOpenSearchDashboardsResponse,
   ResponseError,
   Logger,
-  ILegacyScopedClusterClient,
+  ILegacyScopedClusterClient
 } from '../../../../src/core/server';
 import { joinRequestParams } from './utils/helpers';
 
@@ -36,13 +36,12 @@ export default function(router: IRouter) {
           sort_order: schema.string(),
           config_id_list: schema.maybe(
             schema.oneOf([schema.arrayOf(schema.string()), schema.string()])
-          ),
+          )
         })
       }
     },
     async (context, request, response) => {
       const config_type = joinRequestParams(request.query.config_type);
-      const feature_list = joinRequestParams(request.query.feature_list);
       const config_id_list = joinRequestParams(request.query.config_id_list);
       const query = request.query.query;
       // @ts-ignore
@@ -59,16 +58,43 @@ export default function(router: IRouter) {
             sort_field: request.query.sort_field,
             sort_order: request.query.sort_order,
             config_type,
-            ...(feature_list && { feature_list }),
-            ...(query && { query }),
-            ...(config_id_list && { config_id_list }),
+            ...query && { query },
+            ...config_id_list && { config_id_list }
           }
         );
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: error.message,
+          body: error.message
+        });
+      }
+    }
+  );
+
+  router.get(
+    {
+      path: `${REPORTING_NOTIFICATIONS_DASHBOARDS_API.GET_CONFIG}/{configId}`,
+      validate: {
+        params: schema.object({
+          configId: schema.string()
+        })
+      }
+    },
+    async (context, request, response) => {
+      // @ts-ignore
+      const client: ILegacyScopedClusterClient = context.reporting_plugin.notificationsClient.asScoped(
+        request
+      );
+      try {
+        const resp = await client.callAsCurrentUser('notifications.getConfig', {
+          configId: request.params.configId
+        });
+        return response.ok({ body: resp });
+      } catch (error) {
+        return response.custom({
+          statusCode: error.statusCode || 500,
+          body: error.message
         });
       }
     }
@@ -80,9 +106,9 @@ export default function(router: IRouter) {
       path: `${REPORTING_NOTIFICATIONS_DASHBOARDS_API.GET_EVENT}/{eventId}`,
       validate: {
         params: schema.object({
-          eventId: schema.string(),
-        }),
-      },
+          eventId: schema.string()
+        })
+      }
     },
     async (context, request, response) => {
       // @ts-ignore
@@ -98,11 +124,11 @@ export default function(router: IRouter) {
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: error.message,
+          body: error.message
         });
       }
     }
-  )
+  );
 
   // Send test message
   router.get(
@@ -110,12 +136,12 @@ export default function(router: IRouter) {
       path: `${REPORTING_NOTIFICATIONS_DASHBOARDS_API.SEND_TEST_MESSAGE}/{configId}`,
       validate: {
         params: schema.object({
-          configId: schema.string(),
+          configId: schema.string()
         }),
         query: schema.object({
-          feature: schema.string(),
-        }),
-      },
+          feature: schema.string()
+        })
+      }
     },
     async (context, request, response) => {
       // @ts-ignore
@@ -126,15 +152,14 @@ export default function(router: IRouter) {
         const resp = await client.callAsCurrentUser(
           'notifications.sendTestMessage',
           {
-            configId: request.params.configId,
-            feature: request.query.feature,
+            configId: request.params.configId
           }
         );
         return response.ok({ body: resp });
       } catch (error) {
         return response.custom({
           statusCode: error.statusCode || 500,
-          body: error.message,
+          body: error.message
         });
       }
     }

@@ -667,7 +667,7 @@ export function ReportSettings(props: ReportSettingProps) {
       });
 
     await httpClientProps
-      .get('../api/observability/notebooks/')
+      .get('../api/observability/notebooks/savedNotebook')
       .catch((error: any) => {
         console.error('error fetching notebooks, retrying with legacy api', error)
         return httpClientProps.get('../api/notebooks/')

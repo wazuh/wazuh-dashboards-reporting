@@ -174,6 +174,15 @@ export function ReportDefinitions(props) {
       },
     },
     {
+      field: 'notificationsEnabled',
+      name: i18n.translate(
+        'opensearch.reports.reportDefinitionsTable.columns.notificationsEnabled',
+        { defaultMessage: 'Notifications' }
+      ),
+      sortable: true,
+      truncateText: false,
+    },
+    {
       field: 'status',
       name: i18n.translate(
         'opensearch.reports.reportDefinitionsTable.columns.status',
