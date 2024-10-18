@@ -49,7 +49,7 @@ jobs:
       - name: Step 01 - Download the plugin's source code
         uses: actions/checkout@v3
         with:
-          repository: yenienserrano/wazuh-dashboards-reporting
+          repository: wazuh/wazuh-dashboards-reporting
           ref: ${{ inputs.reference }}
           path: wazuh-dashboards-reporting
 
