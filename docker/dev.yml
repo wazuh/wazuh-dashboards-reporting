@@ -214,7 +214,6 @@ services:
       - ${OSD_PORT}:5601
     environment:
       - 'LOGS=/proc/1/fd/1'
-    entrypoint: ['tail', '-f', '/dev/null']
     volumes:
       - osd_cache:/home/node/.cache
       - '${SRC}:/home/node/kbn/plugins/dashboards-reporting'
