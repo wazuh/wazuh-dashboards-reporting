@@ -32,20 +32,16 @@ jobs:
         run: |
           if [ ! -d "plugin-artifacts" ]; then
             mkdir -p plugin-artifacts
-            wget -O plugin-artifacts/job-scheduler.zip "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-job-scheduler&v=${{ env.OPENSEARCH_PLUGIN_VERSION }}-SNAPSHOT&p=zip"
-          else
-            echo "Folder already exists. Skipping download."
           fi
+          wget -O plugin-artifacts/job-scheduler.zip "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-job-scheduler&v=${{ env.OPENSEARCH_PLUGIN_VERSION }}-SNAPSHOT&p=zip"
         shell: bash
 
       - name: Download Reports Scheduler artifact
         run: |
           if [ ! -d "plugin-artifacts" ]; then
             mkdir -p plugin-artifacts
-            wget -O plugin-artifacts/reports-scheduler.zip "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-reports-scheduler&v=${{ env.OPENSEARCH_PLUGIN_VERSION }}-SNAPSHOT&p=zip"
-          else
-            echo "Folder already exists. Skipping download."
           fi
+          wget -O plugin-artifacts/reports-scheduler.zip "https://aws.oss.sonatype.org/service/local/artifact/maven/redirect?r=snapshots&g=org.opensearch.plugin&a=opensearch-reports-scheduler&v=${{ env.OPENSEARCH_PLUGIN_VERSION }}-SNAPSHOT&p=zip"
         shell: bash
 
       - name: Download OpenSearch
