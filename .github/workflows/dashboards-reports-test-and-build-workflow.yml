@@ -39,7 +39,7 @@ jobs:
           path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
       - name: OpenSearch Dashboards Plugin Bootstrap and test
-        uses: nick-fields/retry@v1
+        uses: nick-fields/retry@v2.9.0
         with:
           timeout_minutes: 30
           max_attempts: 3
@@ -110,14 +110,14 @@ jobs:
   #         path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
   #     - name: OpenSearch Dashboards Plugin Bootstrap
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
   #         command: yarn osd bootstrap --single-version=loose
 
   #     - name: Test
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
@@ -167,14 +167,14 @@ jobs:
   #         path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
   #     - name: OpenSearch Dashboards Plugin Bootstrap
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
   #         command: yarn osd bootstrap --single-version=loose
 
   #     - name: Test
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
