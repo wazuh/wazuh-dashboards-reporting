@@ -43,9 +43,9 @@ jobs:
           filename: reports-scheduler.zip
 
       - name: Download OpenSearch
-        uses: peternied/download-file@v3
-        with:
-          url: https://artifacts.opensearch.org/snapshots/core/opensearch/${{ env.OPENSEARCH_VERSION }}-SNAPSHOT/opensearch-min-${{ env.OPENSEARCH_VERSION }}-SNAPSHOT-linux-x64-latest.tar.gz
+        run: |
+          wget 'https://artifacts.opensearch.org/snapshots/core/opensearch/${{ env.OPENSEARCH_VERSION }}-SNAPSHOT/opensearch-min-${{ env.OPENSEARCH_VERSION }}-SNAPSHOT-linux-x64-latest.tar.gz' --retry-connrefused --tries=3 --no-dns-cache --progress=bar:force:noscroll --verbose
+        shell: bash
 
       - name: Extract OpenSearch
         run: |
