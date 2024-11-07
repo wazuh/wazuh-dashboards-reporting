@@ -43,7 +43,7 @@ jobs:
           filename: reports-scheduler.zip
 
       - name: Download OpenSearch
-        uses: peternied/download-file@v2
+        uses: peternied/download-file@v3
         with:
           url: https://artifacts.opensearch.org/snapshots/core/opensearch/${{ env.OPENSEARCH_VERSION }}-SNAPSHOT/opensearch-min-${{ env.OPENSEARCH_VERSION }}-SNAPSHOT-linux-x64-latest.tar.gz
 
