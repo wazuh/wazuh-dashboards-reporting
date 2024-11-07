@@ -51,7 +51,7 @@ jobs:
                                  whoami && yarn osd bootstrap --single-version=loose && yarn test --coverage"
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v4.6.0
+        uses: codecov/codecov-action@v3
         with:
           flags: dashboards-report
           directory: ./OpenSearch-Dashboards/plugins/
