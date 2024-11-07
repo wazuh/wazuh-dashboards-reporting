@@ -79,7 +79,7 @@ jobs:
         shell: bash
 
       - name: Checkout OpenSearch Dashboards
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: OpenSearch-Dashboards
           repository: opensearch-project/OpenSearch-Dashboards
@@ -90,7 +90,7 @@ jobs:
             test
 
       - name: Checkout Dashboards Reporting Plugin in OpenSearch Dashboards Plugins Dir
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
             path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
