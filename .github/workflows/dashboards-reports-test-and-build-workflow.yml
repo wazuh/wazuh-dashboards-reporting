@@ -27,19 +27,19 @@ jobs:
 
     steps:
       - name: Checkout OpenSearch Dashboards
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: opensearch-project/Opensearch-Dashboards
           ref: ${{ env.OPENSEARCH_VERSION }}
           path: OpenSearch-Dashboards
 
       - name: Checkout Plugin	
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:	
           path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
       - name: OpenSearch Dashboards Plugin Bootstrap and test
-        uses: nick-fields/retry@v1
+        uses: nick-fields/retry@v2.9.0
         with:
           timeout_minutes: 30
           max_attempts: 3
@@ -51,7 +51,7 @@ jobs:
                                  whoami && yarn osd bootstrap --single-version=loose && yarn test --coverage"
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           flags: dashboards-report
           directory: ./OpenSearch-Dashboards/plugins/
@@ -81,14 +81,14 @@ jobs:
   #       run: git config --system core.longpaths true
 
   #     - name: Checkout OpenSearch Dashboards
-  #       uses: actions/checkout@v1
+  #       uses: actions/checkout@v4
   #       with:
   #         repository: opensearch-project/Opensearch-Dashboards
   #         ref: ${{ env.OPENSEARCH_VERSION }}
   #         path: OpenSearch-Dashboards
 
   #     - name: Setup Node
-  #       uses: actions/setup-node@v3
+  #       uses: actions/setup-node@v4
   #       with:
   #         node-version-file: '../OpenSearch-Dashboards/.nvmrc'
   #         registry-url: 'https://registry.npmjs.org'
@@ -105,19 +105,19 @@ jobs:
   #     - run: yarn -v
 
   #     - name: Checkout Plugin	
-  #       uses: actions/checkout@v1
+  #       uses: actions/checkout@v4
   #       with:	
   #         path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
   #     - name: OpenSearch Dashboards Plugin Bootstrap
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
   #         command: yarn osd bootstrap --single-version=loose
 
   #     - name: Test
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
@@ -138,14 +138,14 @@ jobs:
   #   runs-on: macos-latest
   #   steps:
   #     - name: Checkout OpenSearch Dashboards
-  #       uses: actions/checkout@v1
+  #       uses: actions/checkout@v4
   #       with:
   #         repository: opensearch-project/Opensearch-Dashboards
   #         ref: ${{ env.OPENSEARCH_VERSION }}
   #         path: OpenSearch-Dashboards
 
   #     - name: Setup Node
-  #       uses: actions/setup-node@v3
+  #       uses: actions/setup-node@v4
   #       with:
   #         node-version-file: '../OpenSearch-Dashboards/.nvmrc'
   #         registry-url: 'https://registry.npmjs.org'
@@ -162,19 +162,19 @@ jobs:
   #     - run: yarn -v
 
   #     - name: Checkout Plugin	
-  #       uses: actions/checkout@v1
+  #       uses: actions/checkout@v4
   #       with:	
   #         path: OpenSearch-Dashboards/plugins/${{ env.PLUGIN_NAME }}
 
   #     - name: OpenSearch Dashboards Plugin Bootstrap
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
   #         command: yarn osd bootstrap --single-version=loose
 
   #     - name: Test
-  #       uses: nick-fields/retry@v1
+  #       uses: nick-fields/retry@v2.9.0
   #       with:
   #         timeout_minutes: 30
   #         max_attempts: 3
