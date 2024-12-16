@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:  
       - name: Checkout Branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set env
         run: |
@@ -29,14 +29,14 @@ jobs:
         shell: bash
 
       - name: Run Opensearch
-        uses: derek-ho/start-opensearch@v2
+        uses: derek-ho/start-opensearch@v6
         with:
           opensearch-version: ${{ env.OPENSEARCH_VERSION }}
           security-enabled: false
 
       - name: Run Dashboard
         id: setup-dashboards
-        uses: derek-ho/setup-opensearch-dashboards@v2
+        uses: derek-ho/setup-opensearch-dashboards@v3
         with:
           plugin_name: dashboards-reporting
           built_plugin_name: reportsDashboards
