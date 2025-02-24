@@ -11,7 +11,6 @@
 #   specifying any valid code reference (branch, tag, or commit SHA).
 # - 🏗️ Production-Ready Package Generation: Builds a production-ready package from the provided code reference.
 # - 🌐 Reusable Build Environment: Reuses a preconfigured build environment, ensuring consistency and easier maintenance.
-# - 🧪 Automated Testing: Automatically downloads and tests generated artifacts using a dynamically configured Docker environment.
 #
 
 name: Manual build
