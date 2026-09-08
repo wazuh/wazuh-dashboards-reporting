@@ -10,7 +10,7 @@
   },
   "wazuh": {
     "version": "5.0.0",
-    "revision": "08"
+    "revision": "09"
   },
   "scripts": {
     "prepare": "husky",
