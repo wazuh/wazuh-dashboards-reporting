@@ -93,7 +93,7 @@ const addReportHeader = (doc: Document, header: string) => {
 
 const addReportFooter = (doc: Document, footer: string) => {
   // If there is no content, don't bother creating an element
-  if (!footer) return;
+  if (!footer) return undefined;
   const footerHtml = `<div id="reportingFooter">
     <div class="mde-preview" data-testid="mde-preview">
       <div class="mde-preview-content">${footer}</div>
@@ -104,6 +104,9 @@ const addReportFooter = (doc: Document, footer: string) => {
   footerContainer.innerHTML = footerHtml;
   const body = doc.getElementsByTagName('body')[0];
   body.appendChild(footerContainer);
+  // WAZUH: return the container so the caller can measure and pin it (issue #226)
+  return footerContainer;
+  // END WAZUH
 };
 
 const addReportStyle = (doc: Document, style: string) => {
@@ -170,11 +173,19 @@ export const generateReport = async (id: string, forceDelay = 15000) => {
         'span.globalFilterItem:not([data-html2canvas-ignore])'
       )
       .forEach((el) => (el.style.width = el.offsetWidth + 5 + 'px'));
-    addReportHeader(document, header);
-    addReportFooter(document, footer);
-    addReportStyle(document, reportingStyle);
-    await timeout(1000);
   }
+
+  /* WAZUH: upstream only injected here when foreign object rendering was on, and injected
+   * into the clone inside `onclone` otherwise. Both are now injected into the live document,
+   * never into the clone, so that the dimensions measured below already account for them.
+   * The footer is appended after the page content, so measuring first would fix a `height`
+   * that cuts it off and it would never be rasterised (issue #226).
+   */
+  addReportHeader(document, header);
+  const footerContainer = addReportFooter(document, footer);
+  addReportStyle(document, reportingStyle);
+  await timeout(1000);
+  // END WAZUH
 
   /* The left-nav impacts the dimensions of the report; `#opensearch-dashboards-body`
    * is the safest way to know the width.
@@ -185,21 +196,53 @@ export const generateReport = async (id: string, forceDelay = 15000) => {
    *
    * If `#opensearch-dashboards-body` is not found, it will fall back to `scrollWidth`.
    */
-  const innerBodyDims = document.getElementById('opensearch-dashboards-body')?.getBoundingClientRect();
+  const innerBodyDims = document
+    .getElementById('opensearch-dashboards-body')
+    ?.getBoundingClientRect();
   const width = innerBodyDims?.width || document.documentElement.scrollWidth;
-  const height = document.documentElement.scrollHeight;
 
-  const documentBackgroundColor: string = (window.getComputedStyle(document.documentElement) as CSSStyleDeclaration).backgroundColor;
+  /* WAZUH: `html2canvas` re-lays the page out in a viewport as tall as the whole capture.
+   * That inflates every ancestor of the footer that is sized with `vh` or `%` units (OSD
+   * sizes both `#opensearch-dashboards-body` and `.app-wrapper` that way), which pushes the
+   * footer past the bottom edge and drops it from the output. Take the footer out of the
+   * flow and pin it to the position it holds in the live document so it is captured where
+   * it belongs (issue #226).
+   */
+  let footerBottom = 0;
+  if (footerContainer) {
+    const footerDims = footerContainer.getBoundingClientRect();
+    const footerTop = footerDims.top + window.scrollY;
+    footerContainer.style.position = 'absolute';
+    footerContainer.style.left = '0px';
+    footerContainer.style.top = `${footerTop}px`;
+    footerContainer.style.width = `${width}px`;
+    footerBottom = footerTop + footerDims.height;
+  }
+
+  // Upstream used `document.documentElement.scrollHeight` alone, which crops the footer
+  const height = Math.ceil(
+    Math.max(document.documentElement.scrollHeight, footerBottom)
+  );
+  // END WAZUH
+
+  const documentBackgroundColor: string = (
+    window.getComputedStyle(document.documentElement) as CSSStyleDeclaration
+  ).backgroundColor;
   const bgColor = documentBackgroundColor.startsWith('#')
     ? documentBackgroundColor
-    // convert rgb() and rgba() to hex
-    : '#' + documentBackgroundColor.split(/[,()]/, 4).slice(1).map(v => parseInt(v).toString(16)).join('');
+    : // convert rgb() and rgba() to hex
+      '#' +
+      documentBackgroundColor
+        .split(/[,()]/, 4)
+        .slice(1)
+        .map((v) => parseInt(v).toString(16))
+        .join('');
 
   /* ToDo: `html2canvas` doesn't copy stylesheets when `foreignObjectRendering` is false. As a result
    *       `@font-family` definitions are lost; find a way to get them from the document and add
    *       them to the cloned document.
    * ToDo: Don't add the header and footer to the document before cloning as they mess with what the
-   *       users see.
+   *       users see. Any alternative has to keep them inside the measured capture area.
    */
   return html2canvas(document.body, {
     scrollX: 0,
@@ -218,11 +261,6 @@ export const generateReport = async (id: string, forceDelay = 15000) => {
       removeNonReportElements(documentClone, reportSource);
       // When the left nav is docked, the body element gets left-padded; this forces it to left-align
       documentClone.body.style.padding = '0px';
-      if (!useForeignObjectRendering) {
-        addReportHeader(documentClone, header);
-        addReportFooter(documentClone, footer);
-        addReportStyle(documentClone, reportingStyle);
-      }
     },
   })
     .then(async function (canvas) {
@@ -280,7 +318,7 @@ export const generateReport = async (id: string, forceDelay = 15000) => {
         const pdf = new jsPDF(orient, 'px', [canvas.width, canvas.height]);
         pdf.setFillColor(bgColor);
         // `+ 10` to fill in any uncolored areas that appear on the right and bottom edges of the PDF
-        pdf.rect(0, 0, canvas.width + 10, canvas.height + 10, "F");
+        pdf.rect(0, 0, canvas.width + 10, canvas.height + 10, 'F');
         pdf.addImage(canvas, 'JPEG', 0, 0, canvas.width, canvas.height);
         pdf.save(fileName);
       }
@@ -293,11 +331,15 @@ export const generateReport = async (id: string, forceDelay = 15000) => {
             'span:not(.data-html2canvas-ignore)'
           )
           .forEach((el) => (el.style.width = ''));
-        document.querySelectorAll('.reportWrapper').forEach((e) => e.remove());
-        document
-          .querySelectorAll('.reportInjectedStyles')
-          .forEach((e) => e.remove());
-        document.body.style.paddingTop = '';
       }
+      /* WAZUH: upstream only cleaned up when foreign object rendering was on, since that
+       * was the only path that touched the live document. Both paths do now (issue #226).
+       */
+      document.querySelectorAll('.reportWrapper').forEach((e) => e.remove());
+      document
+        .querySelectorAll('.reportInjectedStyles')
+        .forEach((e) => e.remove());
+      document.body.style.paddingTop = '';
+      // END WAZUH
     });
 };

@@ -25,6 +25,7 @@
 | [#158](https://github.com/wazuh/wazuh-dashboard-reporting/issues/158) | Fixed request error when generating report for save search on discover |
 | [#104](https://github.com/wazuh/wazuh-dashboard-reporting/issues/104) | Fixed the validation of the notification plugin |
 | [#133](https://github.com/wazuh/wazuh-dashboard-reporting/issues/133) | Fixed custom filter buttons not being rendered in pdf reports |
+| [#226](https://github.com/wazuh/wazuh-dashboard-reporting/issues/226) | Fixed the configured report footer missing from the generated report |
 
 ## Prior versions
 
